@@ -9,13 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("team/")
+@RequestMapping("team")
 @CrossOrigin
 public class TeamController {
 
@@ -26,6 +27,14 @@ public class TeamController {
 
     @Autowired
     private MatchRepository matchRepository;
+
+    @RequestMapping(method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<Team> getAllTeam(){
+        final String methodName = "getAllTeam() : ";
+        log.info(methodName + "called");
+
+        return teamRepository.findAll();
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{teamName}")
     public Team getTeam(@PathVariable("teamName") String teamName) {
